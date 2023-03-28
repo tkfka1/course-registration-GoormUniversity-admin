@@ -31,7 +31,7 @@ console.log("list : lecture")
                     <td>{{ user.major.name }}</td>
                     <td>{{ user.credit }}</td>
                     <td style="white-space: nowrap">
-                        <router-link :to="`/lecture/class/${user.id}`" class="btn btn-sm btn-primary mr-1">분반강의</router-link>
+                        <router-link :to="`/lecture/class/${user.id}`" class="btn btn-sm btn-secondary mr-1">분반목록</router-link>
                         <router-link :to="`/lecture/edit/${user.id}`" class="btn btn-sm btn-primary mr-1">수정</router-link>
                         <button @click="lectureStore.delete(user.id)" class="btn btn-sm btn-danger btn-delete-user" :disabled="user.isDeleting">
                             <span v-if="user.isDeleting" class="spinner-border spinner-border-sm"></span>

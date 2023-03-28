@@ -46,6 +46,7 @@ console.log("listuser");
                     <td>{{ user.credit }}</td>
                     <td>{{ user.email }}</td>
                     <td style="white-space: nowrap">
+                        <router-link :to="`/users/take/${user.id}`" class="btn btn-sm btn-secondary mr-1">수강목록</router-link>
                         <router-link :to="`/users/edit/${user.id}`" class="btn btn-sm btn-primary mr-1">수정</router-link>
                         <button @click="usersStore.delete(user.id)" class="btn btn-sm btn-danger btn-delete-user" :disabled="user.isDeleting">
                             <span v-if="user.isDeleting" class="spinner-border spinner-border-sm"></span>

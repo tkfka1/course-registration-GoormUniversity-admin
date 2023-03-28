@@ -5,3 +5,5 @@ export * from './admin.store';
 export * from './professor.store';
 export * from './major.store';
 export * from './lecture.store';
+export * from './lectureClass.store';
+export * from './takeLecture.store';
