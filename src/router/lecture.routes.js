@@ -1,4 +1,4 @@
-import { Layout, List, AddEdit } from '@/views/lecture';
+import { Layout, List, AddEdit, ClassList , ClassAddEdit } from '@/views/lecture';
 
 export default {
     path: '/lecture',
@@ -6,6 +6,9 @@ export default {
     children: [
         { path: '', component: List },
         { path: 'add', component: AddEdit },
-        { path: 'edit/:id', component: AddEdit }
+        { path: 'edit/:id', component: AddEdit },
+        { path: 'class/:lid', component: ClassList },
+        { path: 'class/:lid/add', component: ClassAddEdit },
+        { path: 'class/:lid/edit/:id', component: ClassAddEdit }
     ]
 };

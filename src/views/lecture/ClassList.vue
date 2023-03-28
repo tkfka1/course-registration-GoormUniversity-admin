@@ -1,27 +1,34 @@
 <script setup>
+import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
 
-import { useLectureStore } from '@/stores';
+import { useLectureClassStore } from '@/stores';
 
-const lectureStore = useLectureStore();
-const { lecture } = storeToRefs(lectureStore);
+const lectureClassStore = useLectureClassStore();
+const { lectureClass } = storeToRefs(lectureClassStore);
 
 lectureStore.getAll();
-
-console.log("list : lecture")
+const route = useRoute();
+const lid = route.params.lid;
+console.log(lid)
+console.log("list : lectureClass")
 
 </script>
 
 <template>
-    <h1>강의 목록</h1>
-    <router-link to="/lecture/add" class="btn btn-sm btn-success mb-2">강의 추가</router-link>
+    <h1>강의 분반</h1>
+    <h3>~~~ 전공</h3>
+    <h3>~~~ 강의</h3>
+    <h3>~~~ 학점</h3>
+    <router-link :to="`/lecture/class/${lid}/add`" class="btn btn-sm btn-success mb-2">분반 추가</router-link>
     <table class="table table-striped">
         <thead>
             <tr>
-                <th style="width: 30%">이름</th>
-                <th style="width: 30%">전공</th>
-                <th style="width: 30%">학점</th>
-                <th style="width: 10%"></th>
+                <th style="width: 20%">교수명</th>
+                <th style="width: 20%">최소인원</th>
+                <th style="width: 20%">최대인원</th>
+                <th style="width: 20%">수강신청인원</th>
+                <th style="width: 20%"></th>
             </tr>
         </thead>
         <tbody>
@@ -30,8 +37,9 @@ console.log("list : lecture")
                     <td>{{ user.name }}</td>
                     <td>{{ user.major.name }}</td>
                     <td>{{ user.credit }}</td>
+                    <td>{{ user.credit }}</td>
                     <td style="white-space: nowrap">
-                        <router-link :to="`/lecture/class/${user.id}`" class="btn btn-sm btn-primary mr-1">분반강의</router-link>
+                        <router-link :to="`/lecture/edit/${user.id}`" class="btn btn-sm btn-primary mr-1">강의세부</router-link>
                         <router-link :to="`/lecture/edit/${user.id}`" class="btn btn-sm btn-primary mr-1">수정</router-link>
                         <button @click="lectureStore.delete(user.id)" class="btn btn-sm btn-danger btn-delete-user" :disabled="user.isDeleting">
                             <span v-if="user.isDeleting" class="spinner-border spinner-border-sm"></span>

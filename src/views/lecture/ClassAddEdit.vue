@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
 
-import { useLectureStore, useAlertStore , useMajorStore } from '@/stores';
+import { useLectureStore , useAlertStore , useMajorStore } from '@/stores';
 import { router } from '@/router';
 
 const lectureStore = useLectureStore();
@@ -12,16 +12,22 @@ const alertStore = useAlertStore();
 const majorStore = useMajorStore();
 
 const { major } = storeToRefs(majorStore);
-majorStore.getAll();
+majorStore.getAllId();
 
 const route = useRoute();
 const id = route.params.id;
 
-let title = '강의 추가';
+
+// 강의 가져오기
+const lid = route.params.lid;
+({ lecture } = storeToRefs(lectureStore));
+lectureStore.getById(lid);
+
+let title = '강의 분반 추가';
 let user = null;
 if (id) {
     // edit mode
-    title = '정보 수정';
+    title = '정보 d수정';
     ({ user } = storeToRefs(lectureStore));
     lectureStore.getById(id);
     
@@ -82,6 +88,9 @@ export default {
 </script>
 <template>
     <h1>{{title}}</h1>
+    <h3>~~~ 전공</h3>
+    <h3>~~~ 강의</h3>
+    <h3>~~~ 학점</h3>
     <template v-if="!(user?.loading || user?.error)">
         <Form @submit="onSubmit" :validation-schema="schema" :initial-values="user" v-slot="{ errors, isSubmitting }">
             <div class="form-row">
