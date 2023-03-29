@@ -4,21 +4,29 @@ import * as Yup from 'yup';
 import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
 
-import { useUsersStore, useAlertStore, useMajorStore} from '@/stores';
+import { useUsersStore, useAlertStore, useLectureClassStore, useTakeLectureStore } from '@/stores';
 import { router } from '@/router';
 
 const usersStore = useUsersStore();
 const alertStore = useAlertStore();
-const majorStore = useMajorStore();
+const lectureClassStore = useLectureClassStore();
 
 const route = useRoute();
+const lid = route.params.lid;
 const id = route.params.id;
 
-const { major } = storeToRefs(majorStore);
+const { lectureClass } = storeToRefs(lectureClassStore);
 
-majorStore.getAll();
+lectureClassStore.getAll();
 
-let title = '학생 추가';
+const takeLectureStore = useTakeLectureStore();
+const { take } = storeToRefs(takeLectureStore);
+takeLectureStore.getAll();
+
+console.log(lid)
+
+
+let title = '수업 추가';
 let user = null;
 if (id) {
     // edit mode
@@ -29,43 +37,23 @@ if (id) {
 }
 
 const schema = Yup.object().shape({
-    studentId: Yup.string()
-        .required('학번을 입력하세요'),
-    name: Yup.string()
-        .required('이름을 입력하세요'),
-    email: Yup.string()
-        .required('이메일을 입력하세요'),
-    credit: Yup.string()
-        .required('수강가능학점을 입력하세요'),
-    password: Yup.string()
-        .transform(x => x === '' ? undefined : x)
-        // password optional in edit mode
-        .concat(user ? null : Yup.string().required('비밀번호를 입력하세요'))
-        .min(6, '비밀번호는 최소 6자리 이상이어야 합니다.'),
+    user: Yup.object().shape({
+        id: Yup.string()
+            .required('학번을 입력하세요'),
+    }),
 });
 
 async function onSubmit(values) {
-    if (document.getElementById("major.id").value){
-        values.major.id = String(document.getElementById("major.id").value);
-    }
+    values.user.id = lid;
+    values.lectureClass.id = document.getElementById("lectureClass").value;
+    console.log(values);
+    values = { "id": 18, "classMax": 32, "classMin": 5, "lecture": { "id": 11, "name": "프로그래밍기초", "credit": 2, "major": { "id": 3, "name": "컴퓨터공학과" } }, "professor": { "id": 3, "name": "박교수", "major": { "id": 3, "name": "컴퓨터공학과" } }, "explanation": "43", "period": 4, "week": 1 }
+    console.log(values);
     try {
         let message;
-        if (user) {
-            if (values.password === undefined){
-                values.password = "123456";
-                await usersStore.updatePatch(user.value.id, values)
-            }
-            else{
-                await usersStore.update(user.value.id, values)
-            }
-            console.log(values)
-            
-            message = '학생 정보 업데이트 완료';
-        } else {
-            await usersStore.register(values);
-            message = '학생 추가 완료';
-        }
-        await router.push('/users');
+        await takeLectureStore.register(values);
+        message = '학생 추가 완료';
+        await router.push("`/users/take/${lid}`");
         alertStore.success(message);
     } catch (error) {
         alertStore.error(error);
@@ -96,57 +84,25 @@ export default {
 <template>
 
     <h1>{{title}}</h1>
+    {{ lectureClass }}
     <template v-if="!(user?.loading || user?.error)">
-        <Form @submit="onSubmit" :validation-schema="schema" :initial-values="user" v-slot="{ errors, isSubmitting }">
+        <Form @submit="onSubmit" :validation-schema="schema" :initial-values="user">
             <div class="form-row">
                 <div class="form-group col">
-                    <label>학번</label>
-                    <Field name="studentId" type="text" class="form-control" :class="{ 'is-invalid': errors.studentId }" />
-                    <div class="invalid-feedback">{{ errors.studentId }}</div>
-                </div>
-                <div class="form-group col">
-                    <label>이름</label>
-                    <Field name="name" type="text" class="form-control" :class="{ 'is-invalid': errors.name }" />
-                    <div class="invalid-feedback">{{ errors.name }}</div>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col">
-                    <label>
-                        비밀번호
-                        <em v-if="user">(비우면 동일한 비밀번호로 유지)</em>
-                    </label>
-                    <Field name="password" type="password" class="form-control" :class="{ 'is-invalid': errors.password }" />
-                    <div class="invalid-feedback">{{ errors.password }}</div>
-                </div>
-                <div class="form-group col">
-                    <label>전공명</label>
+                    <label>강의명</label>
                     <br>
-                    <select id="major.id" v-model="majorSelected" class="form-control">
-                        <option v-if="user" value="" disabled hidden> {{ user.major.name }} </option>
+                    <select id="lectureClass" v-model="majorSelected" class="form-control">
+                        <option v-if="user" value="" disabled hidden> {{ user.lecture.name }} </option>
                     <option
-                        v-for="item in major"
+                        v-for="item in lectureClass"
                         :key="item.name"
                         :value="item.id">
-                        {{ item.name }}
+                        {{ item.lecture }} / {{ item.professor }}
                     </option>
                     </select>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="form-group col">
-                    <label>수강가능학점</label>
-                    <Field name="credit" type="number" class="form-control" :class="{ 'is-invalid': errors.credit }" />
-                    <div class="invalid-feedback">{{ errors.credit }}</div>
-                </div>
-                <div class="form-group col">
-                    <label>
-                        이메일
-                    </label>
-                    <Field name="email" type="text" class="form-control" :class="{ 'is-invalid': errors.email }" />
-                    <div class="invalid-feedback">{{ errors.email }}</div>
-                </div>
-            </div>
+        
             <div class="form-group">
                 <button class="btn btn-primary" :disabled="isSubmitting">
                     <span v-show="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>
@@ -154,7 +110,8 @@ export default {
                 </button>
                 <router-link to="/users" class="btn btn-link">취소</router-link>
             </div>
-            <Field id="major.id" name="major.id" type="text" class="form-control" style="visibility: hidden;"/>
+            <Field id="lecture.id" name="lectureClass.id" type="text" class="form-control" style="visibility: hidden;"/>
+            <Field id="user.id" name="user.id" type="text" class="form-control" style="visibility: hidden;"/>
         </Form>
     </template>
     <template v-if="user?.loading">

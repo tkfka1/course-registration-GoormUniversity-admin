@@ -37,6 +37,8 @@ const schema = Yup.object().shape({
         .required('이메일을 입력하세요'),
     credit: Yup.string()
         .required('수강가능학점을 입력하세요'),
+    haveCredit: Yup.string()
+        .required('현재학점을 입력하세요'),
     password: Yup.string()
         .transform(x => x === '' ? undefined : x)
         // password optional in edit mode
@@ -138,6 +140,11 @@ export default {
                     <label>수강가능학점</label>
                     <Field name="credit" type="number" class="form-control" :class="{ 'is-invalid': errors.credit }" />
                     <div class="invalid-feedback">{{ errors.credit }}</div>
+                </div>
+                <div class="form-group col">
+                    <label>현재학점</label>
+                    <Field name="haveCredit" type="number" class="form-control" :class="{ 'is-invalid': errors.haveCredit }" />
+                    <div class="invalid-feedback">{{ errors.haveCredit }}</div>
                 </div>
                 <div class="form-group col">
                     <label>

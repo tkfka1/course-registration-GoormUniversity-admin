@@ -12,11 +12,6 @@ usersStore.getAll();
 
 console.log("listuser");
 
-// for (const property in major){
-//     console.log(`${property}: ${object[property]}`);
-// }
-
-
 
 </script>
 

@@ -5,10 +5,15 @@ import { fetchWrapper } from '@/helpers';
 import { ref } from 'vue';
 
 import { useLectureClassStore } from '@/stores';
+import { useTakeLectureStore } from '@/stores';
 
 const lectureClassStore = useLectureClassStore();
 const { lectureClass } = storeToRefs(lectureClassStore);
 lectureClassStore.getAll();
+
+const takeLectureStore = useTakeLectureStore();
+const { take } = storeToRefs(takeLectureStore);
+takeLectureStore.getAll();
 
 // 현재 강의 id 가져오기 lid
 const route = useRoute();
@@ -24,6 +29,24 @@ fetchWrapper.get(`/api/lecture/auth/${lid}`).then((res) => {
     lactureCredit.value = res.credit;
 
 });
+
+function makeweek(week){
+    if(week == 1){
+        return "월";
+    }else if(week == 2){
+        return "화";
+    }else if(week == 3){
+        return "수";
+    }else if(week == 4){
+        return "목";
+    }else if(week == 5){
+        return "금";
+    }else if(week == 6){
+        return "토";
+    }else if(week == 7){
+        return "일";
+    }
+}
 
 </script>
 
@@ -52,8 +75,9 @@ fetchWrapper.get(`/api/lecture/auth/${lid}`).then((res) => {
                     <td>{{ user.professor.name }}</td>
                     <td>{{ user.classMin }}</td>
                     <td>{{ user.classMax }}</td>
+                    
                     <td>{{ user.id }}</td>
-                    <td>{{ user.week }} / {{ user.period }}</td>
+                    <td>{{ makeweek(user.week) }} / {{ user.period }}교시</td>
                     <td>{{ user.explanation }}</td>
                     <td style="white-space: nowrap">
                         <router-link :to="`/lecture/class/${lid}/edit/${user.id}`" class="btn btn-sm btn-secondary mr-1">강의세부</router-link>

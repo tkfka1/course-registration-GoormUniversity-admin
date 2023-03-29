@@ -42,6 +42,7 @@ function findLactureMajorId(){
 let title = '강의 분반 추가';
 let user = null;
 
+console.log(lid)
 if (id) {
     // edit mode
     title = '강의 분반 정보 수정';
@@ -56,8 +57,6 @@ const schema = Yup.object().shape({
         .required('최소인원을 입력하세요'),
     classMax: Yup.string()
         .required('최대인원을 입력하세요'),
-    classPeople: Yup.string()
-        .required('현재인원을 입력하세요'),
     week: Yup.string()
         .required('요일을 입력하세요'),
     period: Yup.string()
@@ -65,10 +64,11 @@ const schema = Yup.object().shape({
 });
 
 async function onSubmit(values) {
-    values.lecture.id = lid;
-    if (document.getElementById("professorId").value){
-        values.professor.id = String(document.getElementById("professorId").value);
-    }
+    // console.log(values)
+    // values.lecture.id = lid;
+    // if (document.getElementById("professor.id").value){
+    //     values.professor.id = String(document.getElementById("professor.id").value);
+    // }
     try {
         let message;
         if (user) {
@@ -108,23 +108,23 @@ export default {
     <h3>전공 : {{ lactureMajor }}</h3>
     <h3>강의 : {{ lactureName }}</h3>
     <h3>학점 : {{ lactureCredit }} 학점</h3>
+    <tr v-for="item in professor.filter((u) => u.major.id === 3)" :key="item.id" >
+        <td>{{ item.name }}</td>
+    </tr>
     <template v-if="!(user?.loading || user?.error)">
         <Form @submit="onSubmit" :validation-schema="schema" :initial-values="user" v-slot="{ errors, isSubmitting }">
             <div class="form-row">
                 <div class="form-group col">
-                    <label>담당교수</label>
-                    <template v-if="professor.length">              
-                    <select v-if="professor" id="professorId" v-model="professorSelected" class="form-control">
+                    <!-- <label>담당교수</label>
+                    <select id="s" v-model="professorSelected" class="form-control">
                         <option v-if="user" value="" disabled hidden> {{ user.professor.name }} </option>
-                        <option value="" disabled hidden> 담당교수 선택 </option>
                     <option
-                        v-for="item in professor.filter((u) => u.major.id === findLactureMajorId())"
-                        :key="item.id"
+                        v-for="item in professor"
+                        :key="item.name"
                         :value="item.id">
                         {{ item.name }}
                     </option>
-                    </select>
-                    </template>
+                    </select> -->
                 </div>
                 <div class="form-group col">
                     <label>요일</label>
@@ -149,11 +149,6 @@ export default {
                     <Field name="classMax" type="number" class="form-control" :class="{ 'is-invalid': errors.classMax }" />
                     <div class="invalid-feedback">{{ errors.classMax }}</div>
                 </div>
-                <div class="form-group col">
-                    <label>현재인원</label>
-                    <Field name="classPeople" type="number" class="form-control" :class="{ 'is-invalid': errors.classPeople }" value="0" />
-                    <div class="invalid-feedback">{{ errors.classPeople }}</div>
-                </div>
             </div>
             <div class="form-row">
                 <div class="form-group col">
@@ -173,31 +168,8 @@ export default {
                 <router-link :to="`/lecture/class/${lid}`" class="btn btn-link">취소</router-link>
             </div>
             <Field name="lecture.id" type="text" class="form-control" style="visibility: hidden;"/>
-            <Field name="professor.id" type="text" class="form-control" style="visibility: hidden;"/>
+            <Field name="professor" type="text" class="form-control" />
         </Form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
     </template>
     <template v-if="user?.loading">
         <div class="text-center m-5">

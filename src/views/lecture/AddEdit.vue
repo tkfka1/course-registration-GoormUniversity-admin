@@ -115,16 +115,15 @@ export default {
                     <select v-bind="fieldCredit" id="credit.num" v-model="creditSelected" class="form-control" >
                     <option v-if="user" value="" disabled hidden> {{ user.credit }} </option>
                     <option v-else value="" disabled hidden> 1 </option>
-                    <option value="1"> 1 </option>
-                    <option value="2"> 2 </option>
-                    <option value="3"> 3 </option>
-                    <option value="4"> 4 </option>
-                    <option value="5"> 5 </option>
-                    <option value="6"> 6 </option>
-                    <option value="7"> 7 </option>
-                    <option value="8"> 8 </option>
-                    <option value="9"> 9 </option>
-                    
+                        <option value="1"> 1 </option>
+                        <option value="2"> 2 </option>
+                        <option value="3"> 3 </option>
+                        <option value="4"> 4 </option>
+                        <option value="5"> 5 </option>
+                        <option value="6"> 6 </option>
+                        <option value="7"> 7 </option>
+                        <option value="8"> 8 </option>
+                        <option value="9"> 9 </option>
                     </select>
                     </Field>
                 </div>
