@@ -30,6 +30,8 @@ fetchWrapper.get(`/api/user/auth/${lid}`).then((res) => {
 
 
 
+
+
 // for (const property in major){
 //     console.log(`${property}: ${object[property]}`);
 // }
@@ -39,14 +41,12 @@ fetchWrapper.get(`/api/user/auth/${lid}`).then((res) => {
 </script>
 
 <template>
-
-    <h1>수강 목록</h1>
-    <br>
     <h3>이름 : {{ name }}</h3>
     <h3>학번 : {{ studentId }}</h3>
     <h3>학점 : {{ credit }}</h3>
     <h3>수강가능학점 : {{ usecredit }}</h3>
-    <router-link :to="`/users/take/${lid}/add`" class="btn btn-sm btn-success mb-2">학생 추가</router-link>
+    <br>
+    <h1>수강 목록</h1>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -80,6 +80,9 @@ fetchWrapper.get(`/api/user/auth/${lid}`).then((res) => {
             </tr>            
         </tbody>
     </table>
+
+    <br>
+    <h1>수강 가능 목록</h1>
 
     <table class="table table-striped">
         <thead>

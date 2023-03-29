@@ -29,29 +29,32 @@ if (id) {
 
 const schema = Yup.object().shape({
     name: Yup.string()
-        .required('강의명을 입력하세요'),
-    credit: Yup.string()
-        .required('학점을 입력하세요')
+        .required('강의명을 입력하세요')
 });
 
 async function onSubmit(values) {
-    if (document.getElementById("major.id").value){
-        values.major.id = String(document.getElementById("major.id").value);
-    }
+    console.log(values)
     try {
         let message;
         if (user) {
-            if (values.password === undefined){
-                values.password = "123456";
-                await lectureStore.updatePatch(user.value.id, values)
+            if (document.getElementById("credit.num").value){
+                values.credit = String(document.getElementById("credit.num").value);
             }
-            else{
-                await lectureStore.update(user.value.id, values)
+            if (document.getElementById("major.id").value){
+                values.major.id = String(document.getElementById("major.id").value);
             }
-            console.log(values)
-            
+            await lectureStore.update(user.value.id, values);
             message = '강의 정보 업데이트 완료';
         } else {
+            if (document.getElementById("credit.num").value){
+                values.credit = String(document.getElementById("credit.num").value);
+            }
+            else{
+                values.credit = "1";
+            }
+            if (document.getElementById("major.id").value){
+                values.major.id = String(document.getElementById("major.id").value);
+            }
             await lectureStore.register(values);
             message = '강의 추가 완료';
         }
@@ -68,6 +71,7 @@ export default {
   data() {
     return {
       majorSelected: "",
+      creditSelected: "",
     };
   },
   mounted() {
@@ -107,8 +111,22 @@ export default {
             <div class="form-row">
                 <div class="form-group col">
                     <label>학점</label>
-                    <Field name="credit" type="number" class="form-control" :class="{ 'is-invalid': errors.credit }" />
-                    <div class="invalid-feedback">{{ errors.credit }}</div>
+                    <Field v-slot="{ fieldCredit }" name="credit">
+                    <select v-bind="fieldCredit" id="credit.num" v-model="creditSelected" class="form-control" >
+                    <option v-if="user" value="" disabled hidden> {{ user.credit }} </option>
+                    <option v-else value="" disabled hidden> 1 </option>
+                    <option value="1"> 1 </option>
+                    <option value="2"> 2 </option>
+                    <option value="3"> 3 </option>
+                    <option value="4"> 4 </option>
+                    <option value="5"> 5 </option>
+                    <option value="6"> 6 </option>
+                    <option value="7"> 7 </option>
+                    <option value="8"> 8 </option>
+                    <option value="9"> 9 </option>
+                    
+                    </select>
+                    </Field>
                 </div>
             </div>
             <div class="form-group">
