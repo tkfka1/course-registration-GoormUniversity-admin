@@ -37,8 +37,6 @@ const schema = Yup.object().shape({
         .required('이메일을 입력하세요'),
     credit: Yup.string()
         .required('수강가능학점을 입력하세요'),
-    haveCredit: Yup.string()
-        .required('현재학점을 입력하세요'),
     password: Yup.string()
         .transform(x => x === '' ? undefined : x)
         // password optional in edit mode
@@ -70,7 +68,12 @@ async function onSubmit(values) {
         await router.push('/users');
         alertStore.success(message);
     } catch (error) {
-        alertStore.error(error);
+        if (error == "500") {
+            alertStore.error("이미 존재하는 학번입니다.");
+        }
+        else{
+            alertStore.error(error);
+        }
     }
 }
 </script>
@@ -142,11 +145,6 @@ export default {
                     <div class="invalid-feedback">{{ errors.credit }}</div>
                 </div>
                 <div class="form-group col">
-                    <label>현재학점</label>
-                    <Field name="haveCredit" type="number" class="form-control" :class="{ 'is-invalid': errors.haveCredit }" />
-                    <div class="invalid-feedback">{{ errors.haveCredit }}</div>
-                </div>
-                <div class="form-group col">
                     <label>
                         이메일
                     </label>
@@ -162,6 +160,9 @@ export default {
                 <router-link to="/users" class="btn btn-link">취소</router-link>
             </div>
             <Field id="major.id" name="major.id" type="text" class="form-control" style="visibility: hidden;"/>
+            
+            <Field v-if="user" name="haveCredit" type="number" class="form-control" style="visibility: hidden;" />
+            <Field v-else name="haveCredit" type="number" value="0" class="form-control" style="visibility: hidden;" />
         </Form>
     </template>
     <template v-if="user?.loading">
