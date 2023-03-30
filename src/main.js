@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
+import Pagination from 'v-pagination-3';
 
 import App from './App.vue';
 import { router } from './router';
@@ -9,6 +10,7 @@ import { router } from './router';
 // fakeBackend();
 
 const app = createApp(App);
+app.component('pagination', Pagination);
 
 app.use(createPinia());
 app.use(router);
