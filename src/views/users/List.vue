@@ -24,12 +24,13 @@ console.log("listuser");
     <table class="table table-striped">
         <thead>
             <tr>
-                <th style="width: 18%">학번</th>
-                <th style="width: 18%">이름</th>
-                <th style="width: 18%">전공</th>
-                <th style="width: 18%">수강가능학점</th>
-                <th style="width: 18%">이메일</th>
-                <th style="width: 10%"></th>
+                <th>학번</th>
+                <th>이름</th>
+                <th>학년</th>
+                <th>전공</th>
+                <th>학점</th>
+                <th>이메일</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -37,8 +38,9 @@ console.log("listuser");
                 <tr v-for="user in users" :key="user.id">
                     <td>{{ user.studentId }}</td>
                     <td>{{ user.name }}</td>
+                    <td>{{ user.grade  }}</td>
                     <td>{{ user.major.name  }}</td>
-                    <td>{{ user.credit }}</td>
+                    <td>{{ user.haveCredit }} / {{ user.credit }}</td>
                     <td>{{ user.email }}</td>
                     <td style="white-space: nowrap">
                         <router-link :to="`/users/take/${user.id}`" class="btn btn-sm btn-secondary mr-1">수강목록</router-link>

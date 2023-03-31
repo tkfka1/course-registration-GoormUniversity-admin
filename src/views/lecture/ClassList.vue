@@ -62,7 +62,7 @@ function makeweek(week){
             <tr>
                 <th style="width: 15%">담당교수</th>
                 <th style="width: 15%">최소인원</th>
-                <th style="width: 15%">최대인원</th>
+                <th style="width: 15%">강의인원</th>
                 <th style="width: 15%">수강인원</th>
                 <th style="width: 15%">요일/교시</th>
                 <th style="width: 15%">설명</th>
@@ -73,10 +73,8 @@ function makeweek(week){
             <template v-if="lectureClass.length">
                 <tr v-for="user in lectureClass.filter((l) => l.lecture.id === Number(lid))" :key="user.id" >
                     <td>{{ user.professor.name }}</td>
-                    <td>{{ user.classMin }}</td>
-                    <td>{{ user.classMax }}</td>
-                    
-                    <td>{{ user.id }}</td>
+                    <td>{{ user.classMin }}명</td>
+                    <td>{{ user.classPeople }} / {{ user.classMax }}</td>
                     <td>{{ makeweek(user.week) }} / {{ user.period }}교시</td>
                     <td>{{ user.explanation }}</td>
                     <td style="white-space: nowrap">

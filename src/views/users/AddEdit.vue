@@ -45,6 +45,7 @@ const schema = Yup.object().shape({
 });
 
 async function onSubmit(values) {
+    values.grade = String(document.getElementById("grade").value);
     if (document.getElementById("major.id").value){
         values.major.id = String(document.getElementById("major.id").value);
     }
@@ -110,6 +111,22 @@ export default {
                     <div class="invalid-feedback">{{ errors.studentId }}</div>
                 </div>
                 <div class="form-group col">
+                    <label>학년</label>
+                    <select id="grade" class="form-control" >
+                    <option v-if="user" value="" disabled hidden> {{ user.grade }} </option>
+                    <option v-else value="1" disabled hidden> 1 </option>
+                        <option value="1"> 1 </option>
+                        <option value="2"> 2 </option>
+                        <option value="3"> 3 </option>
+                        <option value="4"> 4 </option>
+                        <option value="5"> 5 </option>
+                        <option value="6"> 6 </option>
+                        <option value="7"> 7 </option>
+                        <option value="8"> 8 </option>
+                        <option value="9"> 9 </option>
+                    </select>
+                </div>
+                <div class="form-group col">
                     <label>이름</label>
                     <Field name="name" type="text" class="form-control" :class="{ 'is-invalid': errors.name }" />
                     <div class="invalid-feedback">{{ errors.name }}</div>
@@ -159,8 +176,8 @@ export default {
                 </button>
                 <router-link to="/users" class="btn btn-link">취소</router-link>
             </div>
-            <Field id="major.id" name="major.id" type="text" class="form-control" style="visibility: hidden;"/>
-            
+            <Field name="major.id" type="text" class="form-control" style="visibility: hidden;"/>
+            <Field name="grade" type="text" class="form-control" style="visibility: hidden;"/>
             <Field v-if="user" name="haveCredit" type="number" class="form-control" style="visibility: hidden;" />
             <Field v-else name="haveCredit" type="number" value="0" class="form-control" style="visibility: hidden;" />
         </Form>

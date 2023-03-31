@@ -58,14 +58,14 @@ const schema = Yup.object().shape({
         .required('최대인원을 입력하세요'),
     classPeople: Yup.string()
         .required('현재인원을 입력하세요'),
-    week: Yup.string()
-        .required('요일을 입력하세요'),
     period: Yup.string()
         .required('교시를 입력하세요'),
 });
 
 async function onSubmit(values) {
     values.lecture.id = lid;
+    console.log(values);
+    values.week = document.getElementById("week").value;
     if (document.getElementById("professorId").value){
         values.professor.id = String(document.getElementById("professorId").value);
     }
@@ -81,7 +81,11 @@ async function onSubmit(values) {
         await router.push(`/lecture/class/${lid}`);
         alertStore.success(message);
     } catch (error) {
-        alertStore.error(error);
+        if (error == "500"){
+            alertStore.error("교수명이 지정되지 않았습니다.");
+        }else{
+            alertStore.error(error);
+        }
     }
 }
 </script>
@@ -120,7 +124,7 @@ export default {
                     <option
                         v-for="item in professor.filter((u) => u.major.id === findLactureMajorId())"
                         :key="item.id"
-                        :value="item.id">
+                        :value="item.id" selected>
                         {{ item.name }}
                     </option>
                     </select>
@@ -128,8 +132,17 @@ export default {
                 </div>
                 <div class="form-group col">
                     <label>요일</label>
-                    <Field name="week" type="text" class="form-control" :class="{ 'is-invalid': errors.week }" />
-                    <div class="invalid-feedback">{{ errors.week }}</div>
+                    <select id="week" class="form-control">
+                    <option v-if="user" value="" disabled hidden> {{ user.week }} </option>
+                    <option v-else value="1" disabled hidden> 월 </option>
+                    <option value="1">월</option>
+                    <option value="2">화</option>
+                    <option value="3">수</option>
+                    <option value="4">목</option>
+                    <option value="5">금</option>
+                    <option value="6">토</option>
+                    <option value="7">일</option>
+                    </select>
                 </div>
                 <div class="form-group col">
                     <label>교시</label>
@@ -151,7 +164,8 @@ export default {
                 </div>
                 <div class="form-group col">
                     <label>현재인원</label>
-                    <Field name="classPeople" type="number" class="form-control" :class="{ 'is-invalid': errors.classPeople }" value="0" />
+                    <Field v-if="user" name="classPeople" type="number" class="form-control" :class="{ 'is-invalid': errors.classPeople }" />
+                    <Field v-else name="classPeople" type="number" class="form-control" value="0" :class="{ 'is-invalid': errors.classPeople }" disabled />
                     <div class="invalid-feedback">{{ errors.classPeople }}</div>
                 </div>
             </div>
@@ -172,6 +186,7 @@ export default {
                 </button>
                 <router-link :to="`/lecture/class/${lid}`" class="btn btn-link">취소</router-link>
             </div>
+            <Field name="week" type="text" class="form-control" style="visibility: hidden;"/>
             <Field name="lecture.id" type="text" class="form-control" style="visibility: hidden;"/>
             <Field name="professor.id" type="text" class="form-control" style="visibility: hidden;"/>
         </Form>

@@ -23,6 +23,7 @@ const lid = route.params.lid;
 // 내 정보 가져오기
 const name = ref("이름");
 const studentId = ref("학번");
+const grade = ref(1);
 const credit = ref(0);
 const haveCredit = ref(0);
 const majorId = ref(0);
@@ -41,6 +42,7 @@ function myinfo(){
     haveCredit.value = res.haveCredit;
     majorId.value = res.major.id;
     majorName.value = res.major.name;
+    grade.value = res.grade;
     });
 }
 myinfo()
@@ -198,7 +200,7 @@ function findKeyWord(name){
 
 <template>
     <div class="form-row">
-        <h3>{{ name }} ({{ majorName }})  학번 : {{ studentId }}</h3>
+        <h3>{{ name }} ({{ majorName }}) {{ grade }}학년</h3>
     </div>
     <div class="form-row">
     <h3>최대학점 : {{ credit }}  수강학점 : {{ haveCredit }}</h3>
@@ -331,5 +333,11 @@ function findKeyWord(name){
         </tbody>
     </table>
 
-
+    <v-pagination
+    v-model="page"
+    :pages="10"
+    :range-size="1"
+    active-color="#DCEDFF"
+    @update:modelValue="updateHandler"
+  />
 </template>

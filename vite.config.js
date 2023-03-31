@@ -1,5 +1,4 @@
 import { fileURLToPath, URL } from 'url';
-
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 
@@ -14,7 +13,7 @@ export default defineConfig({
     server:{
       proxy:{
         "/api":{ 
-          target: "http://localhost:8080",
+          target: "http://k8s-default-backing-8476de3e44-889811917.ap-northeast-2.elb.amazonaws.com/",
           rewrite: (path)=>path.replace(/^\/api/,""),
         },
       }
