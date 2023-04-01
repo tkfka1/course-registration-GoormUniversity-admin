@@ -191,6 +191,47 @@ function findKeyWord(name){
     }
 }
 
+
+
+
+
+let items = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6', 'Item 7', 'Item 8', 'Item 9', 'Item 10'];
+let itemsPerPage = 3;
+let currentPage = 1;
+
+function paginatedItems(li) {
+      console.log("lectureClass.length")
+      const startIndex = (currentPage - 1) * itemsPerPage
+      const endIndex = startIndex + itemsPerPage
+      return li.slice(startIndex, endIndex)
+    }
+
+function pageCount() {
+    console.log("pageCount")
+    return Math.ceil(items.length / itemsPerPage)
+    }
+
+function nextPage() {
+    console.log("next")
+      if (currentPage < pageCount()) {
+        currentPage++
+      }
+      lectureClassStore.getAll();
+    }
+
+function prevPage() {
+    console.log("prev")
+      if (currentPage > 1) {
+        currentPage--
+      }
+      lectureClassStore.getAll();
+    }
+
+
+
+
+
+
 </script>
 
 
@@ -333,11 +374,23 @@ function findKeyWord(name){
         </tbody>
     </table>
 
-    <v-pagination
-    v-model="page"
-    :pages="10"
-    :range-size="1"
-    active-color="#DCEDFF"
-    @update:modelValue="updateHandler"
-  />
+    <template v-if="lectureClass.length">
+        {{ lectureClass.length }}
+    <div>
+    <ul>
+        <tr v-for="item in paginatedItems(lectureClass)" :key="item.id">
+        <td>{{ item.lecture.name }}</td>
+    </tr>
+        </ul>
+        <div>
+        <button :disabled="currentPage === 1" @click="prevPage">Prev</button>
+        <span>Page {{ currentPage }} of {{ pageCount() }}</span>
+        <button :disabled="currentPage === pageCount()" @click="nextPage">Next</button>
+        </div>
+    </div>
+        
+        </template>
+
+
+
 </template>
