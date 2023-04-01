@@ -115,6 +115,7 @@ function makeweek(week){
 
 
 function searchLectureClassBTN(){
+    currentPage = 1;
     searchLectureClassName.value = document.getElementById("searchTakeLectureId").value;
     if (searchLectureClassName.value == ""){
         return;
@@ -125,6 +126,7 @@ function searchLectureClassBTN(){
 
 
 function changeSelectCredit(event){
+    currentPage = 1;
     searchLectureClassCredit.value = event.target.value;
     lectureClassStore.getAll();
 }
@@ -141,6 +143,7 @@ function findCredit(credit){
 }
 
 function changeSelectMajor(event){
+    currentPage = 1;
     if (event.target.value == "1"){
         searchLectureClassMajor.value = majorName.value;
     }
@@ -164,6 +167,7 @@ function findMajorName(majorId){
 }
 
 function changeSelectWeek(event){
+    currentPage = 1;
     searchLectureClassWeek.value = event.target.value;
     lectureClassStore.getAll();
 
@@ -193,27 +197,20 @@ function findKeyWord(name){
 
 
 
-
-
-let items = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6', 'Item 7', 'Item 8', 'Item 9', 'Item 10'];
 let itemsPerPage = 3;
 let currentPage = 1;
 
-function paginatedItems(li) {
-      console.log("lectureClass.length")
-      const startIndex = (currentPage - 1) * itemsPerPage
-      const endIndex = startIndex + itemsPerPage
-      return li.slice(startIndex, endIndex)
-    }
 
-function pageCount() {
+const pageCount = ref(0)
+
+function pageCountCheck(li) {
     console.log("pageCount")
-    return Math.ceil(items.length / itemsPerPage)
+    pageCount.value = Math.ceil(li.length / itemsPerPage)
     }
 
 function nextPage() {
     console.log("next")
-      if (currentPage < pageCount()) {
+      if (currentPage < pageCount.value) {
         currentPage++
       }
       lectureClassStore.getAll();
@@ -228,7 +225,25 @@ function prevPage() {
     }
 
 
+function listItem(li){
+    let temp = []
+    for (const key in li) {
+        console.log(li[key].lecture.name);
+        // 강의 이름
+        //li[key].lecture.name
+        //findCredit(l.lecture.credit) && findWeek(l.week) && findMajorName(l.lecture.major.name) && findKeyWord(l.lecture.name) )
+        if(findCredit(li[key].lecture.credit) && findWeek(li[key].week) && findMajorName(li[key].lecture.major.name) && findKeyWord(li[key].lecture.name)){
+            temp.push(li[key])
+        }
+        
+    }
+    pageCountCheck(temp)
+    console.log(temp)
 
+    const startIndex = (currentPage - 1) * itemsPerPage
+    const endIndex = startIndex + itemsPerPage
+    return temp.slice(startIndex, endIndex)
+}
 
 
 
@@ -374,23 +389,52 @@ function prevPage() {
         </tbody>
     </table>
 
+    <table class="table table-striped">
+    <thead>
+            <tr>
+                <th>강의명</th>
+                <th>전공</th>
+                <th>담당교수</th>
+                <th>학점</th>
+                <th>수강인원</th>
+                <th>요일/교시</th>
+                <th style="width: 1%"></th>
+            </tr>
+    </thead>
+
+    <tbody>
     <template v-if="lectureClass.length">
-        {{ lectureClass.length }}
-    <div>
-    <ul>
-        <tr v-for="item in paginatedItems(lectureClass)" :key="item.id">
+        <tr v-for="item in listItem(lectureClass)" :key="item.id">
         <td>{{ item.lecture.name }}</td>
-    </tr>
-        </ul>
-        <div>
-        <button :disabled="currentPage === 1" @click="prevPage">Prev</button>
-        <span>Page {{ currentPage }} of {{ pageCount() }}</span>
-        <button :disabled="currentPage === pageCount()" @click="nextPage">Next</button>
-        </div>
-    </div>
-        
+        <td>{{ item.lecture.major.name }}</td>
+        <td>{{ item.professor.name }}</td>
+        <td>{{ item.lecture.credit }}</td>
+        <td>{{ item.classPeople }} / {{ item.classMax }}</td>
+        <td>{{ makeweek(item.week) }} / {{ item.period }}교시</td>
+        <td style="white-space: nowrap">
+            <router-link :to="`/lecture/class/${lid}/edit/${item.id}`" class="btn btn-sm btn-secondary mr-1">강의세부</router-link>
+            <button @click="takeLectureClass(item.id, lid, item.lecture.name , item.lecture.credit )" class="btn btn-sm btn-primary mr-1" :disabled="item.isDeleting">
+                <span>수강신청</span>
+            </button>
+        </td>
+        </tr>
+
         </template>
+    </tbody>
+</table>
+        <div style="text-align: center;" >            
+            <button :disabled="currentPage === 1" @click="prevPage">Prev</button>
+            <span>페이지 {{ currentPage }} 중 {{ pageCount }}</span>
+            <button :disabled="currentPage === pageCount" @click="nextPage">Next</button>
+        </div>
 
-
-
+<ui class="pagination">
+    <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+	<li class="page-item"><a class="page-link" href="#">1</a></li>
+	<li class="page-item"><a class="page-link" href="#">2</a></li>
+	<li class="page-item active"><a class="page-link" href="#">3</a></li>
+	<li class="page-item"><a class="page-link" href="#">4</a></li>
+	<li class="page-item"><a class="page-link" href="#">5</a></li>
+	<li class="page-item"><a class="page-link" href="#">Next</a></li>
+</ui>
 </template>
