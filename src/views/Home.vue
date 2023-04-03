@@ -4,7 +4,6 @@ import { fetchWrapper } from '@/helpers';
 import { useAuthStore } from '@/stores';
 import { ref } from 'vue';
 
-
 const authStore = useAuthStore();
 const { user } = storeToRefs(authStore);
 

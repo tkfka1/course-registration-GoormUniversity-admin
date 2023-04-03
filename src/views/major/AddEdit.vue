@@ -20,7 +20,6 @@ if (id) {
     ({ user } = storeToRefs(majorStore));
     majorStore.getById(id);
     
-    
 }
 
 const schema = Yup.object().shape({

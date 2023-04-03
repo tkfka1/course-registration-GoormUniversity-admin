@@ -8,6 +8,7 @@ import adminRoutes from './admin.routes';
 import majorRoutes from './major.routes';
 import professorRoutes from './professor.routes';
 import lectureRoutes from './lecture.routes';
+import openTimeRoutes from './openTime.routes';
 
 export const router = createRouter({
 
@@ -21,6 +22,7 @@ export const router = createRouter({
         { ...majorRoutes },
         { ...professorRoutes },
         { ...lectureRoutes },
+        { ...openTimeRoutes },
         // catch all redirect to home page
         { path: '/:pathMatch(.*)*', redirect: '/' }
     ]

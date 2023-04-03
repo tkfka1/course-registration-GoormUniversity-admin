@@ -13,6 +13,7 @@ const authStore = useAuthStore();
             <router-link to="/professor" class="nav-item nav-link">교수</router-link>
             <router-link to="/major" class="nav-item nav-link">전공</router-link>
             <router-link to="/lecture" class="nav-item nav-link">강의</router-link>
+            <router-link to="/openTime" class="nav-item nav-link">신청시간</router-link>
             <button @click="authStore.logout()" class="btn btn-link nav-item nav-link">Logout</button>
         </div>
     </nav>

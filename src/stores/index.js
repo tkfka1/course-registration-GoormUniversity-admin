@@ -7,3 +7,4 @@ export * from './major.store';
 export * from './lecture.store';
 export * from './lectureClass.store';
 export * from './takeLecture.store';
+export * from './openTime.store';

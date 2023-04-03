@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
 
-import { useProfessorStore, useAlertStore, useMajorStore } from '@/stores';
+import { useProfessorStore , useAlertStore , useMajorStore } from '@/stores';
 import { router } from '@/router';
 
 const professorStore = useProfessorStore();
