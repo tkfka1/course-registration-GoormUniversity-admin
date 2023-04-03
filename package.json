@@ -12,6 +12,7 @@
         "bootstrap": "^5.2.3",
         "bootstrap-vue": "^2.23.1",
         "pinia": "^2.0.13",
+        "usemodal-vue3": "^0.3.7",
         "v-pagination-3": "^0.1.7",
         "vee-validate": "^4.5.11",
         "vue": "^3.2.47",
@@ -25,6 +26,7 @@
         "@vitejs/plugin-vue": "^2.3.1",
         "eslint": "^8.5.0",
         "eslint-plugin-vue": "^8.2.0",
+        "stylus": "^0.59.0",
         "vite": "^2.9.5"
     }
 }

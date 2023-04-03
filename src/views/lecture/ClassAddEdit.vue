@@ -6,7 +6,7 @@ import { storeToRefs } from 'pinia';
 import { fetchWrapper } from '@/helpers';
 import { ref } from 'vue';
 
-import { useLectureClassStore , useAlertStore , useProfessorStore } from '@/stores';
+import { useLectureClassStore, useAlertStore, useProfessorStore } from '@/stores';
 import { router } from '@/router';
 
 const lectureClassStore = useLectureClassStore();
@@ -35,7 +35,7 @@ fetchWrapper.get(`/api/lecture/auth/${lid}`).then((res) => {
 
 });
 
-function findLactureMajorId(){
+function findLactureMajorId() {
     return lactureMajorId.value;
 }
 
@@ -66,7 +66,7 @@ async function onSubmit(values) {
     values.lecture.id = lid;
     console.log(values);
     values.week = document.getElementById("week").value;
-    if (document.getElementById("professorId").value){
+    if (document.getElementById("professorId").value) {
         values.professor.id = String(document.getElementById("professorId").value);
     }
     try {
@@ -81,9 +81,9 @@ async function onSubmit(values) {
         await router.push(`/lecture/class/${lid}`);
         alertStore.success(message);
     } catch (error) {
-        if (error == "500"){
+        if (error == "500") {
             alertStore.error("교수명이 지정되지 않았습니다.");
-        }else{
+        } else {
             alertStore.error(error);
         }
     }
@@ -107,7 +107,7 @@ export default {
 };
 </script>
 <template>
-    <h1>{{title}}</h1>
+    <h1>{{ title }}</h1>
     <br>
     <h3>전공 : {{ lactureMajor }}</h3>
     <h3>강의 : {{ lactureName }}</h3>
@@ -117,31 +117,29 @@ export default {
             <div class="form-row">
                 <div class="form-group col">
                     <label>담당교수</label>
-                    <template v-if="professor.length">              
-                    <select v-if="professor" id="professorId" v-model="professorSelected" class="form-control">
-                        <option v-if="user" value="" disabled hidden> {{ user.professor.name }} </option>
-                        <option value="" disabled hidden> 담당교수 선택 </option>
-                    <option
-                        v-for="item in professor.filter((u) => u.major.id === findLactureMajorId())"
-                        :key="item.id"
-                        :value="item.id" selected>
-                        {{ item.name }}
-                    </option>
-                    </select>
+                    <template v-if="professor.length">
+                        <select v-if="professor" id="professorId" v-model="professorSelected" class="form-control">
+                            <option v-if="user" value="" disabled hidden> {{ user.professor.name }} </option>
+                            <option value="" disabled hidden> 담당교수 선택 </option>
+                            <option v-for="item in professor.filter((u) => u.major.id === findLactureMajorId())"
+                                :key="item.id" :value="item.id" selected>
+                                {{ item.name }}
+                            </option>
+                        </select>
                     </template>
                 </div>
                 <div class="form-group col">
                     <label>요일</label>
                     <select id="week" class="form-control">
-                    <option v-if="user" value="" disabled hidden> {{ user.week }} </option>
-                    <option v-else value="1" disabled hidden> 월 </option>
-                    <option value="1">월</option>
-                    <option value="2">화</option>
-                    <option value="3">수</option>
-                    <option value="4">목</option>
-                    <option value="5">금</option>
-                    <option value="6">토</option>
-                    <option value="7">일</option>
+                        <option v-if="user" value="" disabled hidden> {{ user.week }} </option>
+                        <option v-else value="1" disabled hidden> 월 </option>
+                        <option value="1">월</option>
+                        <option value="2">화</option>
+                        <option value="3">수</option>
+                        <option value="4">목</option>
+                        <option value="5">금</option>
+                        <option value="6">토</option>
+                        <option value="7">일</option>
                     </select>
                 </div>
                 <div class="form-group col">
@@ -164,16 +162,18 @@ export default {
                 </div>
                 <div class="form-group col">
                     <label>현재인원</label>
-                    <Field v-if="user" name="classPeople" type="number" class="form-control" :class="{ 'is-invalid': errors.classPeople }" />
-                    <Field v-else name="classPeople" type="number" class="form-control" value="0" :class="{ 'is-invalid': errors.classPeople }" disabled />
+                    <Field v-if="user" name="classPeople" type="number" class="form-control"
+                        :class="{ 'is-invalid': errors.classPeople }" />
+                    <Field v-else name="classPeople" type="number" class="form-control" value="0"
+                        :class="{ 'is-invalid': errors.classPeople }" disabled />
                     <div class="invalid-feedback">{{ errors.classPeople }}</div>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col">
                     <label>설명</label>
-                    <Field v-slot="{ field }" name="explanation" :class="{ 'is-invalid': errors.explanation }" >
-                        <textarea v-bind="field" class="form-control"  rows="10" />
+                    <Field v-slot="{ field }" name="explanation" :class="{ 'is-invalid': errors.explanation }">
+                        <textarea v-bind="field" class="form-control" rows="10" />
                     </Field>
                     <div class="invalid-feedback">{{ errors.explanation }}</div>
 
@@ -186,33 +186,12 @@ export default {
                 </button>
                 <router-link :to="`/lecture/class/${lid}`" class="btn btn-link">취소</router-link>
             </div>
-            <Field name="week" type="text" class="form-control" style="visibility: hidden;"/>
-            <Field name="lecture.id" type="text" class="form-control" style="visibility: hidden;"/>
-            <Field name="professor.id" type="text" class="form-control" style="visibility: hidden;"/>
+            <Field name="week" type="text" class="form-control" style="visibility: hidden;" />
+            <Field name="lecture.id" type="text" class="form-control" style="visibility: hidden;" />
+            <Field name="professor.id" type="text" class="form-control" style="visibility: hidden;" />
         </Form>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
     </template>
     <template v-if="user?.loading">
         <div class="text-center m-5">
@@ -221,7 +200,7 @@ export default {
     </template>
     <template v-if="user?.error">
         <div class="text-center m-5">
-            <div class="text-danger">Error loading user: {{user.error}}</div>
+            <div class="text-danger">Error loading user: {{ user.error }}</div>
         </div>
     </template>
 </template>
