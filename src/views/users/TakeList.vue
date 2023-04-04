@@ -500,7 +500,7 @@ function listItem(li) {
         </tbody>
     </table>
     <div style="display: flex; flex-flow: row nowrap; justify-content: center;">
-        <ui class="pagination">
+        <div class="pagination">
             <li class="page-item disabled"><button class="page-link" :disabled="currentPage === 1"
                     @click="prevPage">Prev</button></li>
             <li v-for="page in pageCount" :key="page" class="page-item" :class="{ active: currentPage === page }">
@@ -508,7 +508,7 @@ function listItem(li) {
             </li>
             <li class="page-item"><button class="page-link" :disabled="currentPage === pageCount"
                     @click="nextPage">Next</button></li>
-        </ui>
+            </div>
     </div>
 </template>
 
