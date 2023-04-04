@@ -49,21 +49,23 @@ const schema = Yup.object().shape({
 
 async function onSubmit() {
 
-
-    let values = {
-        startTime: (date.value[0]).toISOString(),
-        endTime: (date.value[1]).toISOString()
+    var d1 = new Date(date.value[0]);
+    var d2 = new Date(date.value[1]);
+    function pad(n) {
+        return n < 10 ? '0' + n : n;
     }
-    // let values = {
-    //     startTime: "2023-04-03T17:19:15",
-    //     endTime: "2023-04-03T17:19:15"
-    // }
-    console.log(values)
+    var d1s = d1.getFullYear() + "-" + pad(d1.getMonth()+1) + "-" + pad(d1.getDate()) + "T" + pad(d1.getHours()) + ":" + pad(d1.getMinutes()) + ":" + "00";
+    var d2s = d2.getFullYear() + "-" + pad(d2.getMonth()+1) + "-" + pad(d2.getDate()) + "T" + pad(d2.getHours()) + ":" + pad(d2.getMinutes()) + ":" + "00";
+
+    
+    let values = {
+        startTime: d1s,
+        endTime: d2s
+    }
     try {
         let message;
         if (openTime) {
             await openTimeStore.update(id, values)
-            console.log(values)
             message = '시간 정보 업데이트 완료';
         } else {
             await openTimeStore.register(values);
@@ -74,45 +76,18 @@ async function onSubmit() {
     } catch (error) {
         alertStore.error(error);
     }
-
-
-
-
-    // try {
-    //     let message;
-    //     if (openTime) {
-    //         await openTimeStore.update(openTime.value.id, values)
-    //         console.log(values)
-    //         message = '시간 정보 업데이트 완료';
-    //     } else {
-    //         await openTimeStore.register(values);
-    //         message = '시간 추가 완료';
-    //     }
-    //     await router.push('/openTime');
-    //     alertStore.success(message);
-    // } catch (error) {
-    //     alertStore.error(error);
-    // }
 }
 
 </script>
 
 <template>
 
-    
-
-    {{ date }}
-    {{ date?.[0] }}
-    {{ date?.[1] }}
-    <!-- {{ date?.[0]?.toLocaleDateString() }}
-    {{ date?.[1]?.toLocaleDateString() }} -->
     <h1>{{title}}</h1>
     <template v-if="!(openTime?.loading || openTime?.error)">
+            <br>
             <div class="form-row">
             <div class="form-group col">
                     <h5>시작시간</h5>
-                </div>
-                <div class="form-group col">
                     <h5>종료시간</h5>
                 </div>
             </div>

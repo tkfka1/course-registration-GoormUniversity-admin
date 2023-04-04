@@ -59,7 +59,7 @@ async function onSubmit(values) {
             else{
                 await usersStore.update(user.value.id, values)
             }
-            console.log(values)
+            // console.log(values)
             
             message = '학생 정보 업데이트 완료';
         } else {

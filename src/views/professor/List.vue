@@ -8,7 +8,7 @@ const { professor } = storeToRefs(professorStore);
 
 professorStore.getAll();
 
-console.log("listprofessor")
+// console.log("listprofessor")
 
 </script>
 

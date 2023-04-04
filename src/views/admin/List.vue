@@ -7,7 +7,7 @@ const adminStore = useAdminStore();
 const { admin } = storeToRefs(adminStore);
 
 adminStore.getAll();
-console.log("listadmin")
+// console.log("listadmin")
 
 </script>
 

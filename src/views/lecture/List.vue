@@ -8,7 +8,7 @@ const { lecture } = storeToRefs(lectureStore);
 
 lectureStore.getAll();
 
-console.log("list : lecture")
+// console.log("list : lecture")
 
 </script>
 

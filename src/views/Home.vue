@@ -12,7 +12,7 @@ const name = ref("이름");
 const adminId = ref("학번");
 
 fetchWrapper.get(`/api/admin/auth/${user._object.user.id}`).then((res) => {
-    console.log(res);
+    // console.log(res);
     name.value = res.name;
     adminId.value = res.adminId;
 

@@ -204,12 +204,12 @@ let currentPage = 1;
 const pageCount = ref(0)
 
 function pageCountCheck(li) {
-    console.log("pageCount")
+    // console.log("pageCount")
     pageCount.value = Math.ceil(li.length / itemsPerPage)
 }
 
 function nextPage() {
-    console.log("next")
+    // console.log("next")
     if (currentPage < pageCount.value) {
         currentPage++
     }
@@ -217,7 +217,7 @@ function nextPage() {
 }
 
 function prevPage() {
-    console.log("prev")
+    // console.log("prev")
     if (currentPage > 1) {
         currentPage--
     }
@@ -225,7 +225,7 @@ function prevPage() {
 }
 
 function changePage(page) {
-    console.log("change")
+    // console.log("change")
     currentPage = page
     lectureClassStore.getAll();
 }
@@ -233,7 +233,7 @@ function changePage(page) {
 function listItem(li) {
     let temp = []
     for (const key in li) {
-        console.log(li[key].lecture.name);
+        // console.log(li[key].lecture.name);
         // 강의 이름
         //li[key].lecture.name
         //findCredit(l.lecture.credit) && findWeek(l.week) && findMajorName(l.lecture.major.name) && findKeyWord(l.lecture.name) )
@@ -243,7 +243,7 @@ function listItem(li) {
 
     }
     pageCountCheck(temp)
-    console.log(temp)
+    // console.log(temp)
 
     const startIndex = (currentPage - 1) * itemsPerPage
     const endIndex = startIndex + itemsPerPage

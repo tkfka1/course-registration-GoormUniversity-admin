@@ -33,7 +33,7 @@ const schema = Yup.object().shape({
 });
 
 async function onSubmit(values) {
-    console.log(values)
+    // console.log(values)
     try {
         let message;
         if (user) {

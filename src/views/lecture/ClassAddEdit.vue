@@ -64,7 +64,7 @@ const schema = Yup.object().shape({
 
 async function onSubmit(values) {
     values.lecture.id = lid;
-    console.log(values);
+    // console.log(values);
     values.week = document.getElementById("week").value;
     if (document.getElementById("professorId").value) {
         values.professor.id = String(document.getElementById("professorId").value);

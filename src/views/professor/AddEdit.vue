@@ -43,7 +43,7 @@ async function onSubmit(values) {
         let message;
         if (user) {
             await professorStore.update(user.value.id, values)
-            console.log(values)
+            // console.log(values)
             message = '교수 정보 업데이트 완료';
         } else {
             await professorStore.register(values);
