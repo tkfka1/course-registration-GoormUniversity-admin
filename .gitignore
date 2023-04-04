@@ -27,4 +27,4 @@ coverage
 *.sln
 *.sw?
 
-vite.config.js
+/vite.config.js
