@@ -46,9 +46,9 @@ const schema = Yup.object().shape({
 async function onSubmit(values) {
     values.user.id = lid;
     values.lectureClass.id = document.getElementById("lectureClass").value;
-    console.log(values);
+    // console.log(values);
     values = { "id": 18, "classMax": 32, "classMin": 5, "lecture": { "id": 11, "name": "프로그래밍기초", "credit": 2, "major": { "id": 3, "name": "컴퓨터공학과" } }, "professor": { "id": 3, "name": "박교수", "major": { "id": 3, "name": "컴퓨터공학과" } }, "explanation": "43", "period": 4, "week": 1 }
-    console.log(values);
+    // console.log(values);
     try {
         let message;
         await takeLectureStore.register(values);

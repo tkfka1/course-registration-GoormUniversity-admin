@@ -8,7 +8,7 @@ const { major } = storeToRefs(majorStore);
 
 majorStore.getAll();
 
-console.log("listmajor")
+// console.log("listmajor")
 
 </script>
 
