@@ -1,3 +1,3 @@
-# vue-3-pinia-registration-login-example
+# admin page
 
-Vue 3 + Pinia - User Registration and Login
+
